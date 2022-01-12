@@ -1,7 +1,7 @@
 # docker-alpine-cron
 
-Dockerfile and scripts for creating image with Cron based on Alpine  
-Installed packages: dcron wget rsync ca-certificates  
+Dockerfile and scripts for creating image with Cron based on Alpine
+Installed packages: dcron wget rsync ca-certificates
 
 ## Usage
 
@@ -29,14 +29,14 @@ Unless *CRON_TAIL* is set to *no_logfile*, the log file will be placed in /var/l
 docker run --name="alpine-cron-sample" -d \
 -v /path/to/app/conf/crontabs:/etc/cron.d \
 -v /path/to/app/scripts:/scripts \
-actyx/docker-alpine-cron
+mcamou/docker-alpine-cron
 ```
 ### With scripts and CRON_STRINGS
 ```
 docker run --name="alpine-cron-sample" -d \
 -e 'CRON_STRINGS=* * * * * /scripts/myapp-script.sh'
 -v /path/to/app/scripts:/scripts \
-actyx/docker-alpine-cron
+mcamou/docker-alpine-cron
 ```
 
 ### Get URL by cron every minute
@@ -44,18 +44,20 @@ actyx/docker-alpine-cron
 ```
 docker run --name="alpine-cron-sample" -d \
 -e 'CRON_STRINGS=* * * * * wget --spider https://sample.dockerhost/cron-jobs'
-actyx/docker-alpine-cron
+mcamou/docker-alpine-cron
 ```
 ## Building
 
-`actyx/docker-alpine-cron:latest` is a multi-platform image. To properly create it you need to use [buildx](https://www.docker.com/blog/multi-platform-docker-builds/) and QEMU:
+`mcamou/docker-alpine-cron:latest` is a multi-platform image. To properly create it you need to use [buildx](https://www.docker.com/blog/multi-platform-docker-builds/) and QEMU:
 
 ```
+<<<<<<< Updated upstream
 docker buildx build --tag actyx/docker-alpine-cron:armv6 --platform linux/arm/v6 --push .
 docker buildx build --tag actyx/docker-alpine-cron:armv7 --platform linux/arm/v7 --push .
 docker buildx build --tag actyx/docker-alpine-cron:amd64 --platform linux/amd64 --push .
 docker manifest create actyx/docker-alpine-cron:latest actyx/docker-alpine-cron:amd64 actyx/docker-alpine-cron:armv6 actyx/docker-alpine-cron:armv7
 docker manifest push actyx/docker-alpine-cron:latest
+=======
+docker buildx build --platform $(echo linux/{amd64,arm64,arm/v7,arm/v6}|sed 's/ /,/g') --tag mcamou/docker-alpine-cron:latest --push .
+>>>>>>> Stashed changes
 ```
-
-The `docker manifest create` needs to be done only once.
