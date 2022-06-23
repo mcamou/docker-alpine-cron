@@ -48,16 +48,8 @@ mcamou/docker-alpine-cron
 ```
 ## Building
 
-`mcamou/docker-alpine-cron:latest` is a multi-platform image. To properly create it you need to use [buildx](https://www.docker.com/blog/multi-platform-docker-builds/) and QEMU:
+`mcamou/docker-alpine-cron` is a multi-platform image. To properly create it you need to use [buildx](https://www.docker.com/blog/multi-platform-docker-builds/) and QEMU:
 
 ```
-<<<<<<< Updated upstream
-docker buildx build --tag actyx/docker-alpine-cron:armv6 --platform linux/arm/v6 --push .
-docker buildx build --tag actyx/docker-alpine-cron:armv7 --platform linux/arm/v7 --push .
-docker buildx build --tag actyx/docker-alpine-cron:amd64 --platform linux/amd64 --push .
-docker manifest create actyx/docker-alpine-cron:latest actyx/docker-alpine-cron:amd64 actyx/docker-alpine-cron:armv6 actyx/docker-alpine-cron:armv7
-docker manifest push actyx/docker-alpine-cron:latest
-=======
 docker buildx build --platform $(echo linux/{amd64,arm64,arm/v7,arm/v6}|sed 's/ /,/g') --tag mcamou/docker-alpine-cron:latest --push .
->>>>>>> Stashed changes
 ```
